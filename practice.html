@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연습</title>
+    <style>
+      body {
+          display: flex; /*flexbox 레이아웃 사용 */
+          flex-direction: column; /* flex 아이템들을 세로(column)방향으로 배치 */
+          align-items: center; /* 수직 방향 가운데 정렬 */
+          justify-content: center; /* 수평 방향 가운데 정렬 */
+          height: 100vh; /* viewport height(vh)를 100%로 설정하여 화면 전체 차지 */
+          margin: 0; /* 스크롤바 제거, 페이지 가장자리 여백 추가 안함 */
+      }
+      button {
+          margin: 5px;
+          padding: 10px 20px;
+      }
+      .buttons {
+          display: flex;
+          margin-top: 10px;
+      }
+      #result {
+          font-size: 1.2em; /* 글자 크기 1.2배 */
+          margin-top: 10px;
+      }
+      #score {
+          font-size: 1.2em; /* 글자 크기 1.2배 */
+          margin-top: 10px;
+          color: blue;
+      }
+    </style>
+</head>
+<body>
+  <h1><b><i><ins><mark>369 게임</mark></ins></i></b></h1>
+    <h2><div id="number-display">숫자: </div></h2>
+    <div class="buttons">
+        <button>0 박수</button>
+        <button>1 박수</button>
+        <button>2 박수</button>
+        <button>3 박수</button>
+    </div>
+    <div id="result"></div>
+    <div id="score">점수: 0</div>
+</body>
+</html>
