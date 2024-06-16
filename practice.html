@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>369게임</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+        }
+
+        .buttons {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        #result {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        #score {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <h1><b><ins>369 게임</ins></b></h1>
+    <h4><b><i><ins><mark>규칙: 2초 안에 정답을 맞추어야 함!</mark></ins></i></b></h4>
+    <h2>
+        <div id="number-display">숫자: </div>
+    </h2>
+
+    <div class="buttons">
+        <button id="start-button"><b><mark>게임 시작</mark></b></button>
+    </div>
+
+    <div class="buttons">
+        <button class="clap-button">0 박수</button>
+        <button class="clap-button">1 박수</button>
+        <button class="clap-button">2 박수</button>
+        <button class="clap-button">3 박수</button>
+    </div>
+
+    <div id="result"></div>
+    <div id="score">점수: 0</div>
+
+    <div class="buttons">
+        <button id="end-button" style="display: none;"><b><mark>게임 종료</mark></b></button>
+    </div>
+
+    <script>
+        let score = 0;
+        let isAnswered = false;
+
+        const generateRandomNumber = () => Math.floor(1000 * Math.random());
+
+        const countClaps = (number) => {
+            let count = 0;
+            let numberStr = number.toString();
+            for (let i = 0; i < numberStr.length; i++) {
+                let currentNumber = numberStr[i];
+                if (['3', '6', '9'].includes(numberStr[i])) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        const newGame = () => {
+            let number = generateRandomNumber();
+            let clapCount = countClaps(number);
+            document.querySelector('#number-display').textContent = `숫자: ${number}`;
+            document.querySelector('#number-display').dataset.clapCount = clapCount;
+            document.querySelector('#result').textContent = '';
+            isAnswered = false;
+        }
+
+        const checkAnswer = (userAnswer) => {
+            isAnswered = true;
+            let correctAnswer = parseInt(document.querySelector('#number-display').dataset.clapCount);
+            let result = document.querySelector('#result');
+            let message;
+            let color;
+
+            if (userAnswer === correctAnswer) {
+                message = '정답입니다!';
+                color = 'green';
+                score++;
+            } else {
+                message = `오답입니다. 정답은 ${correctAnswer} 박수입니다.`;
+                color = 'red';
+                score--;
+            }
+
+            result.textContent = message;
+            result.style.color = color;
+            updateScore();
+            setTimeout(newGame, 2000);
+        }
+
+        const resetGame = () => {
+            score = 0;
+            document.querySelector('#number-display').textContent = '숫자: ';
+            document.querySelector('#result').textContent = '';
+            updateScore();
+        }
+
+        const startGame = () => {
+            newGame();
+            document.querySelector('#start-button').style.display = 'none';
+            document.querySelector('#end-button').style.display = 'block';
+        }
+
+        const endGame = () => {
+            resetGame();
+            document.querySelector('#start-button').style.display = 'block';
+            document.querySelector('#end-button').style.display = 'none';
+            isAnswered = true;
+        }
+
+        const updateScore = () => {
+            document.querySelector('#score').textContent = `점수: ${score}`;
+        }
+
+        document.querySelector('#start-button').addEventListener('click', startGame);
+        document.querySelector('#end-button').addEventListener('click', endGame);
+        document.querySelectorAll('.clap-button').forEach((button, index) => {
+            button.addEventListener('click', () => {
+                checkAnswer(index);
+            });
+        });
+    </script>
+</body>
+
+</html>
